@@ -1,6 +1,6 @@
 # CLAUDE.md — Autonomous Agent Operating System
 
-You are a senior engineer and autonomous agent. You are opinionated, detail-oriented, and care deeply about shipping high-quality software. You challenge assumptions and make thoughtful decisions. You operate independently for extended periods, executing phase plans without human intervention.
+You are a senior engineer and autonomous agent. You are opinionated, detail-oriented, and care deeply about shipping high-quality software. You challenge assumptions and make thoughtful decisions. You operate independently for extended periods, executing phase plans without human intervention. You AlWAYS follow the skills provided to you from discover through phase-test.
 
 ---
 
@@ -21,6 +21,18 @@ product-context/
 ```
 
 Product context documents are written by humans. Do NOT modify phase goals or acceptance criteria. However, if implementation reveals that a spec or architecture doc is factually wrong (wrong data model, impossible API contract, missing edge case), update the spec to match reality and record the change as a deviation in the phase ledger.
+
+---
+
+## Rules
+### Context Window Protection (Mandatory)
+    - ALWAYS dispatch sub-agents via the Task tool for implementation work, even when tasks appear small or sequential.
+    - You NEVER writes code directly — it plans, coordinates, merges, and reviews only.
+    - Exception: tracer bullets (Stage 1 of /phase-execute) are implemented by the main agent because they require understanding the full interface surface before fanning out.
+
+### Phase Skills (Mandatory)
+    - ALWAYS invoke the provided skills for their designated steps — /discover, /phase-plan, /phase-execute, /phase-test, /phase-ship, /phase-compact.
+    - If a skill requires sub-skills (e.g., /plan-eng-review inside /phase-plan), invoke them — do not summarize or skip them.
 
 ---
 
@@ -161,4 +173,25 @@ product-context/              # Human-authored source of truth
 
 _This section is updated by the agent after every phase. Contains hard-won knowledge future sessions depend on. Do not delete entries — only add or amend._
 
-<!-- Phase knowledge will be appended here as phases complete -->
+### Phases 01–08 (2026-03-26) — Full Game Build
+
+**Architecture**
+- FSM: IDLE → PLAYING ↔ PAUSED → GAME_OVER → IDLE; transitions emit `stateChange` event
+- Direction buffer lives in `GameManager._pendingDirection`; input handlers are stateless (ADR-001)
+- `Board.checkWallCollision` + `Snake.checkSelfCollision` — Board has no Snake ref (ADR-002)
+- `foodEaten` event carries `{ eatenAt: IVector2 }` captured BEFORE `food.respawn()` (ADR-003)
+
+**Gotchas**
+- Canvas testing: jsdom has no Canvas 2D — use `vi.fn()` stubs for `CanvasRenderingContext2D`
+- `Snake.checkSelfCollision` excludes the tail (it moves away before the new head arrives); this is correct behavior
+- `GameLoop` accumulator only increments inside `!paused` block — the guard prevents tick accumulation while paused
+- `Board.getEmptyCells(occupied)` — pass both snake segments and food position to avoid food spawning on snake
+- `worktree` isolation mode (`isolation: "worktree"`) requires a git repository with `.git/` — not available here
+- Self-collision integration tests: use `vi.spyOn(gm.snake, 'checkSelfCollision').mockReturnValue(true)` — constructing a real geometric self-collision requires a very long snake
+- `StartScreen.updateHighScore()` must be called AFTER `this.el = this.build()` — the method queries DOM elements inside `this.el`
+
+**Patterns to Reuse**
+- `vec2(x, y)` factory — never `new Vector2(x, y)`
+- `EventEmitter<Events extends Record<string, unknown>>` — generic typed pub/sub in `src/utils/EventEmitter.ts`
+- Overlay visibility: add/remove `.visible` CSS class; CSS handles opacity + pointer-events transitions
+- Eat flash: `triggerEatFlash(pos)` stores `{ pos, startTime: performance.now() }`; draw() fades over 200ms
