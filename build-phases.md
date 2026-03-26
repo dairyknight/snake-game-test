@@ -136,11 +136,9 @@ Each phase references the relevant user stories and technical architecture secti
 **User Stories:**
 - [US-06] View Current Score — score HUD always visible and legible
 - [US-11] Visual Feedback on Events — eat flash < 500ms; game-over effect
-- [US-13] Colour Contrast & Theming — snake, food, background visually distinct; WCAG AA contrast
 
 **Architecture Refs:**
 - *Rendering* — canvas sizing, render cycle steps 1–6
-- *Responsiveness & Mobile* — `90vmin` canvas, resize recalculation
 
 ---
 
@@ -158,7 +156,6 @@ Each phase references the relevant user stories and technical architecture secti
 **User Stories:**
 - [US-02] Control the Snake — Arrow/WASD, < 50ms response, no 180° reversal
 - [US-10] Pause and Resume — P/Esc toggles pause
-- [US-12] Keyboard-Only Navigation — all controls reachable without mouse
 
 **Architecture Refs:**
 - *Input Handling — Keyboard* — `keydown`, direction buffer, reversal guard
@@ -169,107 +166,20 @@ Each phase references the relevant user stories and technical architecture secti
 
 **Status:** `⬜ Not Started`
 
-**Goal:** Build the three HTML overlay screens (Start, Game Over, Pause) so they are accessible to screen readers and keyboard users.
+**Goal:** Build the three HTML overlay screens (Start, Game Over, Pause).
 
 **Delivers:**
 - `src/ui/StartScreen.ts` — "Start Game" button, renders over canvas at IDLE state
 - `src/ui/GameOverScreen.ts` — final score display, "Play Again" button
 - `src/ui/PauseOverlay.ts` — "Paused" overlay, "Resume" button, game board/score still visible behind
 - All screens are HTML/CSS (not drawn on canvas) with visible focus rings, Tab-navigable buttons
-- `aria-live` region announces state transitions (game over, paused, score updates)
 
 **User Stories:**
 - [US-01] Start a Game — Start screen with button
 - [US-04] Lose a Game — Game Over screen with final score
 - [US-05] Restart a Game — "Play Again" button resets full state
 - [US-10] Pause and Resume — Pause overlay with Resume button
-- [US-12] Keyboard-Only Navigation — Tab + Enter/Space activates all buttons
 
 **Architecture Refs:**
-- *Accessibility* — HTML/CSS screens, `aria-live`, focus rings
+- *Accessibility* — HTML/CSS screens, focus rings
 - *State Machine* — screen visibility tied to FSM state
-
----
-
-## Phase 9 — Mobile & Responsive Support
-
-**Status:** `⬜ Not Started`
-
-**Goal:** Make the game fully playable on touch devices with swipe detection and a virtual D-pad.
-
-**Delivers:**
-- `src/input/TouchInput.ts` — `touchstart`/`touchend` swipe detection (30px threshold), virtual D-pad rendered on viewports < 768px wide
-- `preventDefault()` on touch events to suppress scroll interference
-- Canvas and UI scale correctly in portrait and landscape orientations
-- D-pad hidden on desktop
-
-**User Stories:**
-- [US-09] Responsive Layout — board scales to viewport; on-screen controls on mobile
-
-**Architecture Refs:**
-- *Input Handling — Touch* — swipe threshold, D-pad overlay
-- *Responsiveness & Mobile* — `90vmin`, D-pad below canvas in portrait, viewport meta tag
-
----
-
-## Phase 10 — Accessibility Polish
-
-**Status:** `⬜ Not Started`
-
-**Goal:** Ensure the game meets WCAG AA standards and is fully operable without a mouse.
-
-**Delivers:**
-- Audit and fix all colour contrast ratios (4.5:1 text, 3:1 UI components)
-- Dark mode / high-contrast toggle stored in localStorage
-- All interactive elements reachable by Tab, activated by Enter/Space
-- Screen reader announcements for score increments and state changes via `aria-live`
-- Manual keyboard-only walkthrough of full game flow (start → play → pause → resume → game over → restart)
-
-**User Stories:**
-- [US-12] Keyboard-Only Navigation — full Tab + Enter/Space operability
-- [US-13] Colour Contrast & Theming — WCAG AA, dark/high-contrast mode
-
-**Architecture Refs:**
-- *Accessibility* — `aria-live`, focus rings, HTML/CSS screens
-- *Rendering* — colour palette contrast requirements
-
----
-
-## Phase 11 — Testing
-
-**Status:** `⬜ Not Started`
-
-**Goal:** Establish a unit test suite covering core game logic to prevent regressions.
-
-**Delivers:**
-- `tests/Snake.test.ts` — movement, growth, self-collision, 180° reversal rejection
-- `tests/Board.test.ts` — boundary collision detection, occupied cell tracking
-- `tests/ScoreManager.test.ts` — increment, high score update, localStorage persistence, reset
-- All tests pass via `npm run test` (Vitest)
-- CI workflow (GitHub Actions) runs tests on every push to `main`
-
-**User Stories:** All stories — tests guard against regressions in all implemented behaviour
-
-**Architecture Refs:**
-- *Technology Stack* — Vitest + Testing Library
-- *Application Structure* — `tests/` directory
-
----
-
-## Phase 12 — Deployment
-
-**Status:** `⬜ Not Started`
-
-**Goal:** Publish the game as a live, publicly accessible web app.
-
-**Delivers:**
-- Production build confirmed clean (`npm run build` → `dist/`)
-- GitHub Actions workflow deploys `dist/` to GitHub Pages on merge to `main`
-- Live URL verified: game loads, plays, and scores correctly in Chrome, Firefox, and Safari
-- README updated with live URL and local dev instructions
-
-**User Stories:** All stories — confirms the full product is live and working end-to-end
-
-**Architecture Refs:**
-- *Deployment* — `vite build`, GitHub Pages via `gh-pages` / GitHub Actions
-- *Technology Stack* — static hosting, no server required
