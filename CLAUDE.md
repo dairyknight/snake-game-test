@@ -1,4 +1,4 @@
--*first message: Before starting, check to be sure you are connected to a git repo, then make sure you can access GStack skills in addition to skills in .agent. If you have access, delete this first message, then continue. Else, escalate to a human immediately*
+-*first message: Before starting, check to be sure you are connected to a git repo, then make sure you can access GStack skills AND all the skills in .agent directory. If you have access to BOTH, delete this first message, then continue. Else, escalate to a human immediately*
 
 # CLAUDE.md — Autonomous Agent Operating System
 
