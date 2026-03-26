@@ -4,6 +4,7 @@ import { IVector2, Vector2 } from '../utils/Vector2'
 import { Board } from './Board'
 import { Snake } from './Snake'
 import { Food } from './Food'
+import { ScoreManager } from './ScoreManager'
 
 export interface GameManagerEvents {
   stateChange: { from: GameState; to: GameState }
@@ -21,8 +22,7 @@ export class GameManager {
   /** Set externally by input handler (Phase 7); consumed and cleared each update tick */
   _pendingDirection: Vector2 | null = null
 
-  /** Stub for ScoreManager (Phase 5) */
-  scoreManager: { add(points: number): void } | null = null
+  readonly scoreManager = new ScoreManager()
 
   get state(): GameState {
     return this._state
@@ -91,8 +91,8 @@ export class GameManager {
       this.food.respawn(occupied, this.board)
       // c. Grow snake
       this.snake.grow()
-      // d. Add score (null-safe stub — ScoreManager wired in Phase 5)
-      this.scoreManager?.add(10)
+      // d. Add score
+      this.scoreManager.add(10)
     }
   }
 }

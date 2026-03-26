@@ -165,18 +165,16 @@ describe('GameManager.update()', () => {
       expect(gm.board.checkWallCollision(gm.food.position)).toBe(false)
     })
 
-    it('calls scoreManager.add(10) if scoreManager is set', () => {
-      const mockScoreManager = { add: vi.fn() }
-      gm.scoreManager = mockScoreManager
+    it('calls scoreManager.add(10) when food is eaten', () => {
       gm.food.position = vec2(10, 9)
       gm.update()
-      expect(mockScoreManager.add).toHaveBeenCalledWith(10)
+      expect(gm.scoreManager.currentScore).toBe(10)
     })
 
-    it('does not throw when scoreManager is null', () => {
-      gm.scoreManager = null
+    it('scoreManager increments score each time food is eaten', () => {
       gm.food.position = vec2(10, 9)
-      expect(() => gm.update()).not.toThrow()
+      gm.update()
+      expect(gm.scoreManager.currentScore).toBe(10)
     })
   })
 })
