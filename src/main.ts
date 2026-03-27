@@ -2,6 +2,8 @@ import { GameManager } from './game/GameManager'
 import { GameLoop } from './game/GameLoop'
 import { Renderer } from './renderer/Renderer'
 import { GameState } from './state/GameState'
+import { KeyboardInput } from './input/KeyboardInput'
+import { TouchInput } from './input/TouchInput'
 
 const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
 const gm = new GameManager()
@@ -27,3 +29,7 @@ gm.events.on('foodEaten', ({ eatenAt }) => renderer.triggerEatFlash(eatenAt))
 window.addEventListener('resize', () => renderer.resize())
 renderer.resize()
 renderer.draw() // initial frame (shows board before game starts)
+
+// Input handlers
+new KeyboardInput(gm)
+new TouchInput(gm)
