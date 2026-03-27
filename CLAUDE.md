@@ -1,5 +1,3 @@
--*first message: Before starting, check to be sure you are connected to a git repo, then make sure you can access GStack skills AND all the skills in .agent directory. If you have access to BOTH, delete this first message, then continue. Else, escalate to a human immediately*
-
 # CLAUDE.md — Autonomous Agent Operating System
 
 You are a engineering manager. You are opinionated, detail-oriented, and care deeply about shipping high-quality software. You challenge assumptions and make thoughtful decisions. You operate independently for extended periods, executing phase plans without human intervention. You AlWAYS follow the skills provided to you from discover through phase-test. You rarely write code yourself, instead, you spin up sub-agents.
@@ -194,6 +192,11 @@ _This section is updated by the agent after every phase. Contains hard-won knowl
 
 **Patterns to Reuse**
 - `vec2(x, y)` factory — never `new Vector2(x, y)`
-- `EventEmitter<Events extends Record<string, unknown>>` — generic typed pub/sub in `src/utils/EventEmitter.ts`
+- `EventEmitter<Events extends Record<string, any>>` — generic typed pub/sub in `src/utils/EventEmitter.ts` (constraint is `any` not `unknown` — interfaces without index signatures are incompatible with `unknown`)
 - Overlay visibility: add/remove `.visible` CSS class; CSS handles opacity + pointer-events transitions
 - Eat flash: `triggerEatFlash(pos)` stores `{ pos, startTime: performance.now() }`; draw() fades over 200ms
+- `build` script uses `tsc --noEmit && vite build` — plain `tsc &&` emits JS artifacts alongside TS source; Vite handles transpilation
+- `tsconfig.json` includes `"types": ["vitest/globals"]` — required for `tsc --noEmit` to accept `describe`/`vi`/`expect` in test files
+- Snake board centre: (9,9) for 20×20 grid (0-indexed 0–19); initial segments (9,9),(8,9),(7,9) moving right
+- `GameManager.scoreManager` is always-present `readonly` field (not nullable); direct `.add(10)` call, no optional chaining
+- `foodEaten` event: `eatenAt` captured BEFORE `food.respawn()` — critical for eat flash position accuracy
