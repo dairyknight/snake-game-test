@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>Snake Game</title>
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
     <div id="app">
-      <canvas id="game-canvas"></canvas>
+      <div id="game-container" style="position:relative; display:inline-block;">
+        <canvas id="game-canvas"></canvas>
+        <!-- UI overlays are injected here by StartScreen, GameOverScreen, PauseOverlay -->
+      </div>
+      <!-- aria-live regions (visually hidden) -->
+      <div id="score-announce" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+      <div id="state-announce" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
