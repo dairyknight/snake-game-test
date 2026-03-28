@@ -1,6 +1,6 @@
 # Phase 3 — Game Loop
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 ## Goal
 

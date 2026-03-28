@@ -64,4 +64,8 @@ export class GameManager {
   update(): void {
     // Called each logical tick — will be expanded in later phases
   }
+
+  getScore(): number {
+    return 0; // Will be wired to ScoreManager in Phase 5
+  }
 }
