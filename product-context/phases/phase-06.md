@@ -1,6 +1,6 @@
 # Phase 6 — Rendering
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 ## Goal
 
