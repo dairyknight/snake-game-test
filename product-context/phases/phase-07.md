@@ -1,6 +1,6 @@
 # Phase 7 — Input Handling
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 ## Goal
 
