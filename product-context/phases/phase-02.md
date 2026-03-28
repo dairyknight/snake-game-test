@@ -1,6 +1,6 @@
 # Phase 2 — Game State Machine & Event System
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 ## Goal
 
