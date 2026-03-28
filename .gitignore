@@ -1,0 +1,3 @@
+# Local-only: Anthropic skill-creator (https://github.com/anthropics/skills/tree/main/skills/skill-creator)
+# Intentionally not committed — do not remove this line if you want it to stay off the remote.
+.claude/skills/skill-creator/
