@@ -3,6 +3,7 @@ import { GameState } from '../state/GameState';
 import { Snake, Direction, DirectionValue } from './Snake';
 import { Board } from './Board';
 import { Food } from './Food';
+import { ScoreManager } from './ScoreManager';
 import { vec2 } from '../utils/Vector2';
 
 export type GameEvents = {
@@ -14,7 +15,6 @@ export type GameEvents = {
 
 const BOARD_COLS = 20;
 const BOARD_ROWS = 20;
-const POINTS_PER_FOOD = 10;
 
 export class GameManager {
   private state: GameState = GameState.IDLE;
@@ -23,36 +23,11 @@ export class GameManager {
   private board: Board;
   private snake: Snake;
   private food: Food | null = null;
-  private score: number = 0;
-  private highScore: number = 0;
+  private scoreManager: ScoreManager = new ScoreManager();
 
   constructor() {
     this.board = new Board(BOARD_COLS, BOARD_ROWS);
     this.snake = new Snake(vec2(10, 10), Direction.RIGHT);
-    this.tryLoadHighScore();
-  }
-
-  private tryLoadHighScore(): void {
-    try {
-      const stored = typeof localStorage !== 'undefined'
-        ? localStorage.getItem('snake_high_score')
-        : null;
-      if (stored !== null) {
-        this.highScore = parseInt(stored, 10) || 0;
-      }
-    } catch {
-      // localStorage not available (e.g., in test env)
-    }
-  }
-
-  private saveHighScore(): void {
-    try {
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('snake_high_score', String(this.highScore));
-      }
-    } catch {
-      // ignore
-    }
   }
 
   getState(): GameState {
@@ -60,11 +35,15 @@ export class GameManager {
   }
 
   getScore(): number {
-    return this.score;
+    return this.scoreManager.score;
   }
 
   getHighScore(): number {
-    return this.highScore;
+    return this.scoreManager.highScore;
+  }
+
+  getScoreManager(): ScoreManager {
+    return this.scoreManager;
   }
 
   getSnake(): Snake {
@@ -101,7 +80,7 @@ export class GameManager {
   private initGame(): void {
     const startPos = vec2(Math.floor(BOARD_COLS / 2), Math.floor(BOARD_ROWS / 2));
     this.snake.reset(startPos, Direction.RIGHT);
-    this.score = 0;
+    this.scoreManager.reset();
     this.food = new Food(this.board, this.snake.getSegments());
   }
 
@@ -127,12 +106,8 @@ export class GameManager {
 
   endGame(): void {
     if (this.state === GameState.PLAYING) {
-      if (this.score > this.highScore) {
-        this.highScore = this.score;
-        this.saveHighScore();
-      }
       this.transition(GameState.GAME_OVER);
-      this.events.emit('gameOver', { score: this.score });
+      this.events.emit('gameOver', { score: this.scoreManager.score });
     }
   }
 
@@ -165,13 +140,12 @@ export class GameManager {
     // Food eaten
     if (this.food.isEaten(head)) {
       this.snake.grow();
-      this.score += POINTS_PER_FOOD;
-      if (this.score > this.highScore) {
-        this.highScore = this.score;
-        this.saveHighScore();
-      }
+      this.scoreManager.add();
       this.events.emit('foodEaten', undefined);
-      this.events.emit('scoreUpdate', { score: this.score, highScore: this.highScore });
+      this.events.emit('scoreUpdate', {
+        score: this.scoreManager.score,
+        highScore: this.scoreManager.highScore,
+      });
 
       const respawned = this.food.respawn(this.board, this.snake.getSegments());
       if (!respawned) {
@@ -182,7 +156,6 @@ export class GameManager {
   }
 
   clearHighScore(): void {
-    this.highScore = 0;
-    this.saveHighScore();
+    this.scoreManager.clearHighScore();
   }
 }

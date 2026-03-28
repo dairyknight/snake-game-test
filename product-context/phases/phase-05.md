@@ -1,6 +1,6 @@
 # Phase 5 — Scoring & Difficulty
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 ## Goal
 
