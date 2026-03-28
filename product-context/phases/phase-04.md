@@ -1,6 +1,6 @@
 # Phase 4 — Snake & Board Entities
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 ## Goal
 
