@@ -1,3 +1,26 @@
 # Local-only: Anthropic skill-creator (https://github.com/anthropics/skills/tree/main/skills/skill-creator)
 # Intentionally not committed — do not remove this line if you want it to stay off the remote.
 .claude/skills/skill-creator/
+
+# Build output
+dist/
+dist-ssr/
+
+# Dependencies
+node_modules/
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+*.log
+npm-debug.log*
+
+# Agent working memory (local only)
+.agent/
