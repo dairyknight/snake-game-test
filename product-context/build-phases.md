@@ -6,7 +6,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 1 — Project Scaffolding
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Establish the project skeleton so all subsequent phases have a working foundation to build on.
 
@@ -29,7 +29,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 2 — Game State Machine & Event System
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Establish the core state machine and pub/sub event system that all other modules communicate through.
 
@@ -53,7 +53,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 3 — Game Loop
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Implement the `requestAnimationFrame`-based loop that drives logical ticks and rendering frames independently.
 
@@ -73,7 +73,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 4 — Snake & Board Entities
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Implement the Snake and Board domain objects with movement, growth, and collision detection.
 
@@ -97,7 +97,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 5 — Scoring & Difficulty
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Track score, persist high score to localStorage, and increase speed as score grows.
 
@@ -121,7 +121,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 6 — Rendering
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Implement the full canvas rendering pipeline — board, snake, food, and HUD.
 
@@ -144,7 +144,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 7 — Input Handling
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Wire up keyboard controls and a direction-change buffer so input is responsive and safe.
 
@@ -164,7 +164,7 @@ Each phase references the relevant user stories and technical architecture secti
 
 ## Phase 8 — UI Screens (HTML/CSS)
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 **Goal:** Build the three HTML overlay screens (Start, Game Over, Pause).
 

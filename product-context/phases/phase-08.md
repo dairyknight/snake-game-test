@@ -1,6 +1,6 @@
 # Phase 8 — UI Screens (HTML/CSS)
 
-**Status:** `⬜ Not Started`
+**Status:** `✅ Done`
 
 ## Goal
 
